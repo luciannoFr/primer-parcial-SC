@@ -1,6 +1,5 @@
 import { createJwt } from "../helpers/createJwt.js";
 import { createUser, getUserByCredentials } from "../models/user.model.js";
-
 export const signInCtrl = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -23,7 +22,11 @@ export const signInCtrl = async (req, res) => {
 
 export const signUpCtrl = async (req, res) => {
   try {
-    // ! Completar la función signUpCtrl
+    console.log("llega hasta aca")
+    const { username, email, password } = req.body;
+    const user = await createUser(username, email, password);
+    const token = await createJwt(user.id);
+    res.cookie("token", token, { httpOnly: true });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -31,7 +34,7 @@ export const signUpCtrl = async (req, res) => {
 
 export const signOutCtrl = (_req, res) => {
   try {
-    // ! Completar la función signOutCtrl
+    res.clearCookie("token");
     res.status(200).json({ message: "Sign out success" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,3 +48,4 @@ export const getMeCtrl = (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+

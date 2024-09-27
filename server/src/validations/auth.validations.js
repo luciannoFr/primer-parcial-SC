@@ -9,4 +9,5 @@ export const signUpValidation = [
 export const signInValidation = [
   body("email").isEmail(),
   body("password").isLength({ min: 6 }),
+
 ];

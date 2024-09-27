@@ -4,16 +4,18 @@ import crypto from "crypto";
 const usersCollection = [];
 
 // Función para crear un usuario
-export const createUser = async (user) => {
-  const { password } = user;
+export const createUser = async (user, mail, pass) => {
+  console.log("llega hasta aca?")
+  const { password } = pass;
   const salt = await genSalt(10);
+  console.log("llega hasta aca3?")
   const hashedPassword = await hash(password, salt);
-
   const newUser = {
     // Generate a random id
     id: crypto.randomUUID().toString(),
-    ...user,
+    username: user,
     password: hashedPassword,
+    email:mail,
   };
 
   usersCollection.push(newUser);
